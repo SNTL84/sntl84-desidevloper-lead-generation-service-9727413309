@@ -1,0 +1,136 @@
+name: Update All Repository URLs to Instagram Profile
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  update-repos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Update repository homepage URLs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: SNTL84
+          NEW_URL: https://www.instagram.com/desibiztrade/
+        run: |
+          #!/bin/bash
+          set -e
+          
+          REPOS=(
+            "ai-frontend-projects"
+            "ai-lead-enrichment-agent"
+            "ai-studio-99page-generator"
+            "automate-what-costs-you"
+            "awesome-ai-sales-agents"
+            "coral-heights-vehicle-registration"
+            "desidevloper"
+            "desidevloper-portfolio-nextjs"
+            "MetroMate"
+            "n8n-india-smb-workflow-templates"
+            "shopify-leadgen-proposal"
+            "SNTL84"
+            "sntl84-agentic-recruiter"
+            "sntl84-ai-hiring-intel"
+            "sntl84-backoffice-os"
+            "sntl84-browser-automation"
+            "sntl84-business-intelligence-push"
+            "sntl84-cohost-virtual-assistant-v3"
+            "sntl84-core-identity"
+            "sntl84-desi-quote"
+            "sntl84-desidevloper"
+            "sntl84-desidevloper-live-demo"
+            "sntl84-desidevloper-services-page"
+            "sntl84-dev-profile"
+            "sntl84-ecom-ad-campaigns"
+            "sntl84-ecom-customer-support"
+            "sntl84-ecom-dropshipping-setup"
+            "sntl84-ecom-inventory-sync"
+            "sntl84-ecom-marketplace-listing"
+            "sntl84-ecom-order-fulfillment"
+            "sntl84-ecom-payment-integration"
+            "sntl84-ecom-product-sourcing"
+            "sntl84-ecom-returns-mgmt"
+            "sntl84-ecom-seo-optimization"
+            "sntl84-ecom-store-setup"
+            "sntl84-enterprise-ai-services"
+            "sntl84-fmcg-lead-intel"
+            "sntl84-gemini-integration"
+            "SNTL84-Growth-Engine"
+            "sntl84-hiring-system"
+            "sntl84-linkedin-activity-archive"
+            "sntl84-megait-stores-client"
+            "sntl84-multilingual-statement-generator"
+            "sntl84-next-saas-stripe-starter"
+            "sntl84-python-foundations-projects"
+            "sntl84-real-estate-claude-agent"
+            "sntl84-repo-counter"
+            "SNTL84-Resume"
+            "sntl84-service-catalog-v1"
+            "sntl84-service-catalog-v2"
+            "sntl84-services-directory"
+            "sntl84-shiv-gujarati-thali"
+            "sntl84-shopify-leadgen-proposal"
+            "sntl84-superpowers"
+            "SNTL84BULKautomation-blaster-tools"
+            "Tragad-Soni-Website-Roadmap"
+            "whatsapp-outreach-tool"
+          )
+          
+          SUCCESS=0
+          FAILED=0
+          TOTAL=${#REPOS[@]}
+          
+          echo "=========================================="
+          echo "GitHub Repository URL Updater"
+          echo "=========================================="
+          echo "Owner: $OWNER"
+          echo "Total Repositories: $TOTAL"
+          echo "New URL: $NEW_URL"
+          echo "=========================================="
+          echo ""
+          
+          for repo in "${REPOS[@]}"; do
+            echo "[$((SUCCESS + FAILED + 1))/$TOTAL] Updating: $repo..."
+            
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "Content-Type: application/json" \
+              "https://api.github.com/repos/$OWNER/$repo" \
+              -d "{\"homepage\":\"$NEW_URL\"}")
+            
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "  ✓ SUCCESS ($HTTP_CODE)"
+              ((SUCCESS++))
+            else
+              echo "  ✗ FAILED (HTTP $HTTP_CODE)"
+              ((FAILED++))
+            fi
+            
+            sleep 1
+          done
+          
+          echo ""
+          echo "=========================================="
+          echo "Update Summary"
+          echo "=========================================="
+          echo "Total Repositories: $TOTAL"
+          echo "Successfully Updated: $SUCCESS ✓"
+          echo "Failed: $FAILED ✗"
+          echo "=========================================="
+          
+          if [ $FAILED -eq 0 ]; then
+            echo "All repositories updated successfully! 🎉"
+            exit 0
+          else
+            echo "Some repositories failed. Check the output above."
+            exit 1
+          fi
