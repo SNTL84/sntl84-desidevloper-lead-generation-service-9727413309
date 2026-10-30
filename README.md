@@ -18,6 +18,7 @@
 ██████╔╝███████╗███████║██║    ██████╔╝███████╗ ╚████╔╝ ███████╗╚██████╔╝██║     ███████╗██║  ██║
 ╚═════╝ ╚══════╝╚══════╝╚═╝    ╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝
 ```
+For lead generation services, see the contact information in this README.
 
 ### **AI Workflow Developer · Full-Stack Builder · FMCG-to-Tech Founder**
 #### *We learn everyday to think with our tools.*
@@ -287,3 +288,7 @@ MIT © 2025 Milan · SNTL 84 · [desidevloper.com](https://desidevloper.com)
 *We learn everyday to think with our tools.*
 
 </div>
+
+## Lead Generation Services
+
+Lead generation services: lead-generation-service-9727413309.
